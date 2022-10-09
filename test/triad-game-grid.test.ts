@@ -29,13 +29,9 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
   @test 'Find cells for minimization - across'() 
   {
     // arrange
-    let gameGrid = new TriadGameGrid();
-    gameGrid.setupGameGrid(this.GRID_ROWS,this.GRID_COLS);
+    let gameGrid = this.makeGameGrid();
     
-    const currentRow = 34;
-    for(let i=0; i<12; i++){
-      gameGrid.setCellValue(currentRow, i, 1);
-    }
+    const currentRow = 35;
 
     gameGrid.setCellValue(currentRow, 5, 2);
     gameGrid.setCellValue(currentRow, 6, 2);
@@ -48,7 +44,100 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     _chai.assert(gameGrid.getCell(currentRow, 5).minimize === true, "we should minimize here");
     _chai.assert(gameGrid.getCell(currentRow, 6).minimize === true, "we should minimize here");
     _chai.assert(gameGrid.getCell(currentRow, 7).minimize === true, "we should minimize here");
-    _chai.assert(gameGrid.getCell(currentRow, 1).minimize === false, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow, 1).minimize === false, "we should not minimize here");
   }
+
+  private makeGameGrid() {
+    let gameGrid = new TriadGameGrid();
+    gameGrid.setupGameGrid(this.GRID_ROWS, this.GRID_COLS);
+    return gameGrid;
+  }
+
+  @test 'Find cells for minimization- across - find cells at end'() 
+  {
+    // arrange
+    let gameGrid = this.makeGameGrid();
+    
+    const currentRow = 35;
+
+    gameGrid.setCellValue(currentRow, 11, 2);
+    gameGrid.setCellValue(currentRow, 10, 2);
+    gameGrid.setCellValue(currentRow, 9, 2);
+
+    // act
+    gameGrid.findCellsToMinimize();
+
+    // assert
+    _chai.assert(gameGrid.getCell(currentRow, 11).minimize === true, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow, 10).minimize === true, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow, 9).minimize === true, "we should minimize here");
+  }
+
+  @test 'Find cells for minimization - across - find cells at front'() 
+  {
+    // arrange
+    let gameGrid = this.makeGameGrid();
+    
+    const currentRow = 35;
+
+    gameGrid.setCellValue(currentRow, 0, 2);
+    gameGrid.setCellValue(currentRow, 1, 2);
+    gameGrid.setCellValue(currentRow, 2, 2);
+    gameGrid.setCellValue(currentRow, 3, 2);
+    gameGrid.setCellValue(currentRow, 7, 2);
+
+
+    // act
+    gameGrid.findCellsToMinimize();
+
+    // assert
+    _chai.assert(gameGrid.getCell(currentRow, 0).minimize === true, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow, 1).minimize === true, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow, 2).minimize === true, "we should minimize here");
+  }
+
+  @test 'Find cells for minimization - up and down - case1'() 
+  {
+    // arrange
+    let gameGrid = this.makeGameGrid();
+    
+    const currentCol = 0;
+    const currentRow = this.GRID_ROWS - 3;
+
+    gameGrid.setCellValue(currentRow, currentCol, 2);
+    gameGrid.setCellValue(currentRow+1, currentCol, 2);
+    gameGrid.setCellValue(currentRow+2, currentCol, 2);
+
+
+    // act
+    gameGrid.findCellsToMinimize();
+
+    // assert
+    _chai.assert(gameGrid.getCell(currentRow, currentCol).minimize === true, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow+1, currentCol).minimize === true, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow+2, currentCol).minimize === true, "we should minimize here");
+  }
+
+  @test 'Find cells for minimization - up and down - case2'() 
+  {
+    // arrange
+    let gameGrid = this.makeGameGrid();
+    
+    const currentCol = 11;
+    const currentRow = this.GRID_ROWS - 10;
+
+    gameGrid.setCellValue(currentRow, currentCol, 2);
+    gameGrid.setCellValue(currentRow+1, currentCol, 2);
+    gameGrid.setCellValue(currentRow+2, currentCol, 2);
+
+    // act
+    gameGrid.findCellsToMinimize();
+
+    // assert
+    _chai.assert(gameGrid.getCell(currentRow, currentCol).minimize === true, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow+1, currentCol).minimize === true, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow+2, currentCol).minimize === true, "we should minimize here");
+  }
+
 
 }
