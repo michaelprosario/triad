@@ -12,6 +12,7 @@ export class InputController {
     private _keyX: Phaser.Input.Keyboard.Key;
     messageService: GameMessageService;
     keyIsUp: boolean = true;
+    keyIsDown: boolean = false;
 
     private _scene: Phaser.Scene;
 
@@ -31,23 +32,47 @@ export class InputController {
     update(): void {
         
         this.keyIsUp = true;
-        if (this._keyUp?.isDown) 
+        if (this._keyUp?.isDown){
+            this.keyIsDown = true
             this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.UP);
-        if (this._keyDown?.isDown) 
+        } 
+            
+        if (this._keyDown?.isDown){
+            this.keyIsDown = true
             this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.DOWN);
-        if (this._keyLeft?.isDown) 
+        } 
+            
+        if (this._keyLeft?.isDown){
+            this.keyIsDown = true
             this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.LEFT);
-        if (this._keyRight?.isDown) 
+        } 
+            
+        if (this._keyRight?.isDown){
+            this.keyIsDown = true
             this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        if (this._keyDown?.isDown) 
+        } 
+            
+        if (this._keyDown?.isDown){
+            this.keyIsDown = true
             this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.DOWN);
-        if (this._keySpace?.isDown) 
+        } 
+            
+        if (this._keySpace?.isDown){
+            this.keyIsDown = true
             this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.SPACE);
-        if (this._keyX?.isDown) 
+        } 
+            
+        if (this._keyX?.isDown) {
+            this.keyIsDown = true
             this.sendKeyMessage(MessageTypes.KeyDown, Phaser.Input.Keyboard.KeyCodes.X);
+        }
 
-        if(this.keyIsUp)
+        if(this.keyIsUp && this.keyIsDown)
+        {
             this.sendKeyMessage(MessageTypes.KeyUp, 0);
+            this.keyIsDown = false;
+        }
+            
     }
 
     private sendKeyMessage(messageType: number, keyCode: number) {
