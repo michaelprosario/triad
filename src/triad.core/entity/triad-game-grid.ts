@@ -26,12 +26,24 @@ export class TriadGameGrid {
         this.makeEmptyGrid();
         for(let i=0; i<blockCount; i++)
         {
-            let row = MathHelper.randomIntFromInterval(5, this.rows-1);
-            let col = MathHelper.randomIntFromInterval(3, this.columns-1);
-            if(this.grid[col][row])
+            let row = MathHelper.randomIntFromInterval(0, this.rows-1);
+            let col = MathHelper.randomIntFromInterval(0, this.columns-1);
+            if(this.grid[row][col])
             {
-                this.grid[col][row].cellValue = MathHelper.randomIntFromInterval(1,5);
+                this.grid[row][col].cellValue = MathHelper.randomIntFromInterval(1,5);
             }
+        }
+
+        for(let row=0; row< this.rows; row++)
+        {
+            let col = 0;
+            this.grid[row][col].cellValue = 2;
+        }
+
+        for(let col=0; col< this.columns; col++)
+        {
+            let row = 0;
+            this.grid[row][col].cellValue = 3;
         }
     }
 
@@ -41,7 +53,7 @@ export class TriadGameGrid {
         this.findMatchingCellsUpDown();
     }
 
-    private findMatchingCellsUpDown() {
+    findMatchingCellsUpDown() {
         for (let col = 0; col < this.columns; col++)
         {
             for (let row = 2; row < this.rows; row++) 
@@ -60,7 +72,7 @@ export class TriadGameGrid {
         }
     }
 
-    private findMatchingCellsAcross() {
+    findMatchingCellsAcross() {
         for (let row = 0; row < this.rows; row++) {
             for (let col = 2; col < this.columns; col++) {
                 let cell1 = this.getCell(row, col);
@@ -99,7 +111,7 @@ export class TriadGameGrid {
         return this.grid[row][column];
     }    
 
-    private makeEmptyGrid() {
+    makeEmptyGrid() {
         this.grid = [];
         for (let row: number = 0; row < this.rows; row++) {
             let colArray: Array<TriadGridCell> = [];

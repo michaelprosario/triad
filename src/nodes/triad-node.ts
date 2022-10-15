@@ -23,6 +23,7 @@ export class TriadNode extends GameNode
     {
         super();
 
+        // construction 
         let startX = 0;
         let startY = 0;
         
@@ -40,6 +41,7 @@ export class TriadNode extends GameNode
         
     start() 
     {
+        // start
         this.updateTriadTextures();
     }
 
@@ -50,7 +52,8 @@ export class TriadNode extends GameNode
     }
 
     update() 
-    {       
+    {  
+        // update the display     
         this.bottomSprite.x = this.topSprite.x;
         this.bottomSprite.y = this.topSprite.y+(TriadConstants.BLOCK_WIDTH*2);
         
@@ -76,21 +79,34 @@ export class TriadNode extends GameNode
 
     private onKeyDown(message: GameMessage) {
         
-        if (message.content === Phaser.Input.Keyboard.KeyCodes.UP) {
-            this.topSprite.y -= TriadConstants.BLOCK_WIDTH;
-        }
-        else if (message.content === Phaser.Input.Keyboard.KeyCodes.DOWN) {
-            this.topSprite.y += TriadConstants.BLOCK_WIDTH;
+        if (message.content === Phaser.Input.Keyboard.KeyCodes.DOWN) {
+            this.moveTriadDown();
         }
         else if (message.content === Phaser.Input.Keyboard.KeyCodes.LEFT) {
-            this.topSprite.x -= TriadConstants.BLOCK_WIDTH;
+            this.moveTriadLeft();
         }
         else if (message.content === Phaser.Input.Keyboard.KeyCodes.RIGHT) {
-            this.topSprite.x += TriadConstants.BLOCK_WIDTH;
+            this.moveTriadRight();
         }        
         else if (message.content === Phaser.Input.Keyboard.KeyCodes.SPACE) {
-            this.triadModel.permutate();
-            this.updateTriadTextures();
+            this.permuteTriad();
         }
+    }
+
+    private permuteTriad() {
+        this.triadModel.permutate();
+        this.updateTriadTextures();
+    }
+
+    private moveTriadRight() {
+        this.topSprite.x += TriadConstants.BLOCK_WIDTH;
+    }
+
+    private moveTriadLeft() {
+        this.topSprite.x -= TriadConstants.BLOCK_WIDTH;
+    }
+
+    private moveTriadDown() {
+        this.topSprite.y += TriadConstants.BLOCK_WIDTH;
     }
 }

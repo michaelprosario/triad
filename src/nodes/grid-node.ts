@@ -20,7 +20,7 @@ export class GridNode extends GameNode
 
     start()
     {
-        this.triadGrid.setupGameGrid(36,12);    
+        this.triadGrid.setupGameGrid(15,20);    
     }
 
     placeRandomBlocks(){
