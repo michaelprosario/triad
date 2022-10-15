@@ -1,20 +1,9 @@
 import { suite, test } from '@testdeck/mocha';
 import * as _chai from 'chai';
 import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
+import { TriadModel } from '../src/triad.core/value-objects/triad-model';
 
-/*
 
-
-- CanMoveRight
-    - Nothing is there
-    - Blocked on right
-    - Blocked by side of game area
-
-- CanMoveDown
-    - Nothing is there
-    - Blocked on bottom by block
-    - Blocked by bottom of game area
-*/
 /*
 Given
 - Triad is not blocked on left
@@ -94,20 +83,32 @@ Then
   before() {
 
   }
-
-  @test 'TriadModel'() 
+  /*
+  Given
+  - Triad is not blocked on left
+  When 
+  - CanMoveLeft() is executed
+  Then
+  - Method returns true
+  */
+  @test 'Triad is not blocked on left, CanMoveLeft() returns true'() 
   {
     // arrange
     let gameGrid = new TriadGameGrid();
+    gameGrid.makeEmptyGrid();
+
+    // put triad model 5 from the left
+    // put triad model at top
+    let triadModel = new TriadModel(gameGrid);
+    triadModel.row = 0;
+    triadModel.column = 5;
+    triadModel.setUpRandom(5);
 
     // act
-    gameGrid.setupGameGrid(this.GRID_ROWS,this.GRID_COLS);
+    let response = triadModel.canMoveLeft();
 
     // assert
-    _chai.assert(gameGrid.rows === 36, "rows is correct");
-    _chai.assert(gameGrid.columns === 12, "cols is correct");
-    _chai.assert(gameGrid.grid.length === 36, "grid rows is set correctly");
-
+    _chai.assert(response, "rows is correct");
   }
 
 

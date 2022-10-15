@@ -1,15 +1,19 @@
 import { MathHelper } from "../../playtime.core/helpers/math-helper";
+import { TriadGameGrid } from "../entity/triad-game-grid";
 
 export class TriadModel
 {
+  
+   
     data: Array<number> = [1,1,1];
     originalData: Array<number> = [1,1,1];
     permutationIndex: number = 0;
     permutations: Array<Array<number>>;
+    row: number = 0;
+    column: number = 0;
 
-    constructor()
+    constructor(private grid: TriadGameGrid)
     {
-
         this.permutations = [
             [0,1,2],
             [0,2,1],
@@ -53,5 +57,10 @@ export class TriadModel
         const newData = [this.originalData[orderConfig[0]], this.originalData[orderConfig[1]],this.originalData[orderConfig[2]]];
         this.data = newData;
     }
-          
+
+    canMoveLeft() 
+    {
+        return false;
+    }
+              
 }
