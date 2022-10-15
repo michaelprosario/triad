@@ -1,11 +1,13 @@
 import Phaser from 'phaser';
 import { InputController } from '../controllers/input-controller';
+import { GridNode } from '../nodes/grid-node';
 import { TriadNode } from '../nodes/triad-node';
 import { GameMessageService } from '../playtime.core/services/game-message-service';
 
 export default class Demo extends Phaser.Scene {
 
-  triadNode: TriadNode | undefined;  
+  gridNode: GridNode | undefined;  
+  triadNode: TriadNode | undefined;
 
   gameMessageService: GameMessageService | undefined;
   inputController: InputController | undefined;
@@ -28,6 +30,10 @@ export default class Demo extends Phaser.Scene {
     this.triadNode = new TriadNode(this, this.gameMessageService);    
     this.triadNode.start();
 
+    this.gridNode = new GridNode(this);
+    this.gridNode.start();
+    this.gridNode.placeRandomBlocks();
+    this.gridNode.refreshGrid();
   }
 
   update(time: number, delta: number): void {

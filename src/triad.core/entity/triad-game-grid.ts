@@ -1,3 +1,5 @@
+import { MathHelper } from "../../playtime.core/helpers/math-helper";
+
 export class TriadGridCell
 {
     cellValue: number;
@@ -17,6 +19,20 @@ export class TriadGameGrid {
 
     constructor() {
 
+    }
+
+    placeRandomBlocks(blockCount: number)
+    {
+        this.makeEmptyGrid();
+        for(let i=0; i<blockCount; i++)
+        {
+            let row = MathHelper.randomIntFromInterval(5, this.rows-1);
+            let col = MathHelper.randomIntFromInterval(3, this.columns-1);
+            if(this.grid[col][row])
+            {
+                this.grid[col][row].cellValue = MathHelper.randomIntFromInterval(1,5);
+            }
+        }
     }
 
     findCellsToMinimize() 
