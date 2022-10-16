@@ -2,9 +2,7 @@ import { MathHelper } from "../../playtime.core/helpers/math-helper";
 import { TriadGameGrid } from "../entity/triad-game-grid";
 
 export class TriadModel
-{
-  
-   
+{   
     data: Array<number> = [1,1,1];
     originalData: Array<number> = [1,1,1];
     permutationIndex: number = 0;
@@ -60,7 +58,50 @@ export class TriadModel
 
     canMoveLeft() 
     {
-        return false;
+        if(this.column === 0){
+            return false;
+        }
+
+        let response: boolean = true;
+
+        response = this.checkIfCellEmpty(this.row, this.column - 1, response);
+        response = this.checkIfCellEmpty(this.row+1, this.column - 1, response);
+        response = this.checkIfCellEmpty(this.row+2, this.column - 1, response);
+
+        return response;
     }
+
+    private checkIfCellEmpty(row1: number, col1: number, response: boolean) {
+        if(row1>this.grid.rows)
+        {
+            return false;
+        }
+
+        if(col1 > this.grid.columns){
+            return false;
+        }
+
+        let cell = this.grid.getCell(row1, col1);
+        if (!cell) {
+            response = false;
+        } else {
+            if (cell.cellValue > 0) {
+                response = false;
+            }
+        }
+        return response;
+    }
+
+    canMoveRight() {
+        if(this.column === this.grid.columns - 1){
+            return false;
+        }
+
+        let response: boolean = true;
+        response = this.checkIfCellEmpty(this.row, this.column + 1, response);
+        response = this.checkIfCellEmpty(this.row+1, this.column + 1, response);
+        response = this.checkIfCellEmpty(this.row+2, this.column + 1, response);
+        return response;
+    }    
               
 }

@@ -111,7 +111,7 @@ export class TriadGameGrid {
         return this.grid[row][column];
     }    
 
-    makeEmptyGrid() {
+    private makeEmptyGrid() {
         this.grid = [];
         for (let row: number = 0; row < this.rows; row++) {
             let colArray: Array<TriadGridCell> = [];
