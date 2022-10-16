@@ -24,7 +24,7 @@ export class GridNode extends GameNode
     }
 
     placeRandomBlocks(){
-        this.triadGrid.placeRandomBlocks(100);
+        this.triadGrid.placeRandomBlocks(10);
     }
         
     refreshGrid() 

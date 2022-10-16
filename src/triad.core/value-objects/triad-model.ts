@@ -71,17 +71,17 @@ export class TriadModel
         return response;
     }
 
-    private checkIfCellEmpty(row1: number, col1: number, response: boolean) {
-        if(row1>this.grid.rows)
+    private checkIfCellEmpty(row: number, col: number, response: boolean) {
+        if(row>this.grid.rows-1)
         {
             return false;
         }
 
-        if(col1 > this.grid.columns){
+        if(col > this.grid.columns-1){
             return false;
         }
 
-        let cell = this.grid.getCell(row1, col1);
+        let cell = this.grid.getCell(row, col);
         if (!cell) {
             response = false;
         } else {

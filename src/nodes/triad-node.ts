@@ -3,6 +3,7 @@ import { MessageTopics } from "../playtime.core/enums/message-topics";
 import { MessageTypes } from "../playtime.core/enums/message-types";
 import { GameMessageService } from "../playtime.core/services/game-message-service";
 import { GameMessage } from "../playtime.core/value-objects/game-message";
+import { TriadGameGrid } from "../triad.core/entity/triad-game-grid";
 import { TriadConstants } from "../triad.core/triad-constants";
 import { TriadModel } from "../triad.core/value-objects/triad-model";
 
@@ -18,7 +19,8 @@ export class TriadNode extends GameNode
 
     constructor(
         private scene: Phaser.Scene, 
-        private messageService: GameMessageService
+        private messageService: GameMessageService,
+        private grid: TriadGameGrid
         )
     {
         super();
@@ -33,7 +35,7 @@ export class TriadNode extends GameNode
         this.topSprite.x = startX;
         this.topSprite.y = startY;
 
-        this.triadModel = new TriadModel();
+        this.triadModel = new TriadModel(this.grid);
         this.triadModel.setUpRandom(5);
         
         this.messageService.subscribe(this, MessageTopics.UserInput);
@@ -58,7 +60,10 @@ export class TriadNode extends GameNode
         this.bottomSprite.y = this.topSprite.y+(TriadConstants.BLOCK_WIDTH*2);
         
         this.middleSprite.x = this.topSprite.x;
-        this.middleSprite.y = this.topSprite.y+TriadConstants.BLOCK_WIDTH;                
+        this.middleSprite.y = this.topSprite.y+TriadConstants.BLOCK_WIDTH;    
+        
+        this.triadModel.row = Math.floor(this.topSprite.y / TriadConstants.BLOCK_WIDTH);
+        this.triadModel.column = Math.floor(this.topSprite.x / TriadConstants.BLOCK_WIDTH);
     }
 
     receiveMessage(message: GameMessage) 
@@ -99,14 +104,17 @@ export class TriadNode extends GameNode
     }
 
     private moveTriadRight() {
-        this.topSprite.x += TriadConstants.BLOCK_WIDTH;
+        if(this.triadModel.canMoveRight())
+            this.topSprite.x += TriadConstants.BLOCK_WIDTH;
     }
 
     private moveTriadLeft() {
-        this.topSprite.x -= TriadConstants.BLOCK_WIDTH;
+        if(this.triadModel.canMoveLeft())
+            this.topSprite.x -= TriadConstants.BLOCK_WIDTH;
     }
 
     private moveTriadDown() {
-        this.topSprite.y += TriadConstants.BLOCK_WIDTH;
+        if(this.triadModel.canMoveDown())
+            this.topSprite.y += TriadConstants.BLOCK_WIDTH;
     }
 }

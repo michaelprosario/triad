@@ -33,18 +33,6 @@ export class TriadGameGrid {
                 this.grid[row][col].cellValue = MathHelper.randomIntFromInterval(1,5);
             }
         }
-
-        for(let row=0; row< this.rows; row++)
-        {
-            let col = 0;
-            this.grid[row][col].cellValue = 2;
-        }
-
-        for(let col=0; col< this.columns; col++)
-        {
-            let row = 0;
-            this.grid[row][col].cellValue = 3;
-        }
     }
 
     findCellsToMinimize() 

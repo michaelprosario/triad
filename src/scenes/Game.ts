@@ -27,13 +27,16 @@ export default class Demo extends Phaser.Scene {
   create() {
     this.gameMessageService = new GameMessageService();
     this.inputController = new InputController(this, this.gameMessageService);
-    this.triadNode = new TriadNode(this, this.gameMessageService);    
-    this.triadNode.start();
 
     this.gridNode = new GridNode(this);
     this.gridNode.start();
     this.gridNode.placeRandomBlocks();
     this.gridNode.refreshGrid();
+
+
+    this.triadNode = new TriadNode(this, this.gameMessageService, this.gridNode.triadGrid);    
+    this.triadNode.start();
+
   }
 
   update(time: number, delta: number): void {
