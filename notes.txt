@@ -1,0 +1,76 @@
+triad states
+- IDLE
+- MOVING_LEFT
+- MOVING_RIGHT
+- MOVING_DOWN
+- PERMUTE
+
+
+
+given
+- triad piece is idle
+- automove internal has not been triggered
+
+when
+- execute update
+
+then the system should do nothing
+
+===
+
+given
+- triad piece is idle
+- automove interal has been exceeded
+
+when
+- execute update
+
+then
+- reset automove interval timer
+- move piece down
+
+===
+
+given
+- triad is moving the the right
+- key is still down
+- move internal has not been triggered
+
+when
+- execute update
+
+then
+- do nothing to triad
+
+
+===
+
+given
+- triad is moving the the right
+- key is still down
+- move internal has been triggered
+
+when
+- execute update
+
+then
+- reset move timer
+- move piece to right
+
+====
+
+given
+- triad is moving the the right
+- right is not down
+- move internal has been triggered
+
+when
+- execute update
+
+then
+- set triad state to idle
+- move piece to right
+
+
+
+

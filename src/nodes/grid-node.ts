@@ -44,7 +44,7 @@ export class GridNode extends GameNode
         }
     }
 
-    update() 
+    update(time: number, delta: number) 
     {       
 
     }

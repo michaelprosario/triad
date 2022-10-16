@@ -53,7 +53,7 @@ export class TriadNode extends GameNode
         this.bottomSprite.setTexture('box' + this.triadModel.data[2]);
     }
 
-    update() 
+    update(time: number, delta: number) 
     {  
         // update the display     
         this.bottomSprite.x = this.topSprite.x;

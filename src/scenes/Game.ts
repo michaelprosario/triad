@@ -40,8 +40,8 @@ export default class Demo extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-    this.inputController?.update();
-    this.gameMessageService?.update();
-    this.triadNode?.update();    
+    this.inputController?.update(time,delta);
+    this.gameMessageService?.update(time,delta);
+    this.triadNode?.update(time,delta);    
   }
 }
