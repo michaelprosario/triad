@@ -103,5 +103,13 @@ export class TriadModel
         response = this.checkIfCellEmpty(this.row+2, this.column + 1, response);
         return response;
     }    
-              
+
+    canMoveDown() {
+        if(this.row >= this.grid.rows - 1){
+            return false;
+        }
+
+        let response = true;
+        return this.checkIfCellEmpty(this.row+3, this.column, response);
+    }    
 }

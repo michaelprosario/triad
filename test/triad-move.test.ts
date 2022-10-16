@@ -182,4 +182,64 @@ Then
     _chai.assert(response === false, "rows is correct");
   }
 
+  @test 'Triad is not blocked on bottom, CanMoveDown() returns true'() 
+  {
+    // arrange
+    let gameGrid = new TriadGameGrid();
+    gameGrid.setupGameGrid(10,20);
+
+    // put triad model at top
+    let triadModel = new TriadModel(gameGrid);
+    triadModel.row = 0;
+    triadModel.column = 5;
+    triadModel.setUpRandom(5);
+
+    // act
+    let response = triadModel.canMoveDown();
+
+    // assert
+    _chai.assert(response === true, "rows is correct");
+  }
+
+  @test 'Triad is blocked on bottom, CanMoveDown() returns true'() 
+  {
+    // arrange
+    let gameGrid = new TriadGameGrid();
+    gameGrid.setupGameGrid(10,20);
+
+    // put triad model at top
+    let triadModel = new TriadModel(gameGrid);
+    triadModel.row = 0;
+    triadModel.column = 5;
+    triadModel.setUpRandom(5);
+
+    gameGrid.setCellValue(3,5,1);
+
+    // act
+    let response = triadModel.canMoveDown();
+
+    // assert
+    _chai.assert(response === false, "rows is correct");
+  }
+
+  @test 'Triad is blocked on bottom of grid, CanMoveDown() returns true'() 
+  {
+    // arrange
+    let gameGrid = new TriadGameGrid();
+    gameGrid.setupGameGrid(10,20);
+
+    // put triad model at top
+    let triadModel = new TriadModel(gameGrid);
+    triadModel.row = 7;
+    triadModel.column = 5;
+    triadModel.setUpRandom(5);
+
+    // act
+    let response = triadModel.canMoveDown();
+
+    // assert
+    _chai.assert(response === false, "rows is correct");
+  }
+
+
 }
