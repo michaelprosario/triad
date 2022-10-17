@@ -1,3 +1,4 @@
 export enum MessageTopics {
-    UserInput = 1
+    UserInput = 1,
+    GridState = 2
 }

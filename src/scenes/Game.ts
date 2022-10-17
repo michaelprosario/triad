@@ -28,7 +28,7 @@ export default class Demo extends Phaser.Scene {
     this.gameMessageService = new GameMessageService();
     this.inputController = new InputController(this, this.gameMessageService);
 
-    this.gridNode = new GridNode(this);
+    this.gridNode = new GridNode(this, this.gameMessageService);
     this.gridNode.start();
     this.gridNode.placeRandomBlocks();
     this.gridNode.refreshGrid();
