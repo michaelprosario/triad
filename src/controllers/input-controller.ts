@@ -22,13 +22,10 @@ export class InputController {
     }
 
     handleKeyDown(eventArgs:any){
-        console.log("key down ");
-        console.log(eventArgs);
         intputController.sendKeyMessage(MessageTypes.KeyDown, eventArgs.keyCode);
     }
 
     handleKeyUp(eventArgs:any){
-        console.log("key up " + eventArgs);        
         intputController.sendKeyMessage(MessageTypes.KeyUp, 0);
     }    
 
