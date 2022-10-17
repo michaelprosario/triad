@@ -12,6 +12,19 @@ export class TriadGridCell
 }
 
 export class TriadGameGrid {
+    makeReducedGrid() {
+        
+        let newGrid: Array<Array<TriadGridCell>> = [];
+        this.clearGrid(newGrid);      
+
+        for (let column: number = 0; column < this.columns; column++) 
+        {
+            let gridValues: Array<number> = this.getMinimizedColumn(column);            
+            newGrid = this.storeUpdatedColumnToNewGrid(gridValues, newGrid, column);
+        }
+
+        return newGrid;
+    }
     
     grid: Array<Array<TriadGridCell>> = [];
     rows: number = 0;
@@ -19,6 +32,41 @@ export class TriadGameGrid {
 
     constructor() {
 
+    }
+
+    private storeUpdatedColumnToNewGrid(gridValues: number[], newGrid: TriadGridCell[][], column: number) {
+        let rowIndex = this.rows - 1;
+        for (let cellValue of gridValues) {            
+            newGrid[rowIndex][column].cellValue = cellValue;
+            newGrid[rowIndex][column].minimize = false;
+            rowIndex--;
+        }
+
+        return newGrid;
+    }
+
+    private clearGrid(newGrid: TriadGridCell[][]) {
+        for (let row: number = 0; row < this.rows; row++) {
+            let colArray: Array<TriadGridCell> = [];
+            for (let column: number = 0; column < this.columns; column++) {
+                colArray[column] = new TriadGridCell();
+            }
+
+            newGrid[row] = colArray;
+        }
+    }
+
+    private getMinimizedColumn(column: number) {
+        let gridValues: Array<number> = [];
+        
+        for (let currentRow = this.rows - 1; currentRow > 0; currentRow--) {
+            // capture non zero cells that are not minimized
+            let currentCell = this.grid[currentRow][column];            
+            if (currentCell.cellValue > 0 && currentCell.minimize === false) {
+                gridValues.push(currentCell.cellValue);
+            }
+        }
+        return gridValues;
     }
 
     placeRandomBlocks(blockCount: number)

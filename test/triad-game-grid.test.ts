@@ -23,7 +23,6 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     _chai.assert(gameGrid.rows === 36, "rows is correct");
     _chai.assert(gameGrid.columns === 12, "cols is correct");
     _chai.assert(gameGrid.grid.length === 36, "grid rows is set correctly");
-
   }
 
   @test 'Find cells for minimization - across'() 
@@ -138,6 +137,38 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     _chai.assert(gameGrid.getCell(currentRow+1, currentCol).minimize === true, "we should minimize here");
     _chai.assert(gameGrid.getCell(currentRow+2, currentCol).minimize === true, "we should minimize here");
   }
+
+  @test 'Reducing a grid'() 
+  {
+    // arrange
+    let gameGrid = this.makeGameGrid();
+    
+    let currentCol = 1;
+    let currentRow = 26
+
+    gameGrid.setCellValue(currentRow,   currentCol, 3);
+    gameGrid.setCellValue(currentRow+1, currentCol, 4);
+    gameGrid.setCellValue(currentRow+2, currentCol, 2);
+    gameGrid.setCellValue(currentRow+3, currentCol, 2);
+    gameGrid.setCellValue(currentRow+4, currentCol, 2);
+    gameGrid.setCellValue(currentRow+5, currentCol, 5);
+    gameGrid.setCellValue(currentRow+6, currentCol, 1);
+    gameGrid.setCellValue(currentRow+7, currentCol, 2);
+    gameGrid.setCellValue(currentRow+8, currentCol, 2);
+    gameGrid.setCellValue(currentRow+9, currentCol, 2);    
+
+    // act
+    gameGrid.findCellsToMinimize();
+    let newGrid = gameGrid.makeReducedGrid();
+
+    console.log(newGrid);
+    
+    // assert    
+    _chai.assert(newGrid[32][1].cellValue === 3);
+    _chai.assert(newGrid[33][1].cellValue === 4);
+    _chai.assert(newGrid[34][1].cellValue === 5);
+    _chai.assert(newGrid[35][1].cellValue === 1);
+  }  
 
 
 }
