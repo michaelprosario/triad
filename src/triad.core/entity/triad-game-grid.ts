@@ -12,6 +12,15 @@ export class TriadGridCell
 }
 
 export class TriadGameGrid {
+    
+    grid: Array<Array<TriadGridCell>> = [];
+    rows: number = 0;
+    columns: number = 0;
+
+    constructor() {
+
+    }
+
     makeReducedGrid() {
         
         let newGrid: Array<Array<TriadGridCell>> = [];
@@ -25,13 +34,11 @@ export class TriadGameGrid {
 
         return newGrid;
     }
-    
-    grid: Array<Array<TriadGridCell>> = [];
-    rows: number = 0;
-    columns: number = 0;
 
-    constructor() {
-
+    minimizeGrid() 
+    {
+        let newGrid = this.makeReducedGrid();
+        this.grid = newGrid;
     }
 
     private storeUpdatedColumnToNewGrid(gridValues: number[], newGrid: TriadGridCell[][], column: number) {
@@ -85,11 +92,14 @@ export class TriadGameGrid {
 
     findCellsToMinimize() 
     {
-        this.findMatchingCellsAcross();    
-        this.findMatchingCellsUpDown();
+        let cellsToMinimize: boolean = false;
+        cellsToMinimize = this.findMatchingCellsAcross();    
+        cellsToMinimize = cellsToMinimize || this.findMatchingCellsUpDown();
+        return cellsToMinimize;
     }
 
-    findMatchingCellsUpDown() {
+    findMatchingCellsUpDown() : boolean {
+        let cellsToMinimize = false;
         for (let col = 0; col < this.columns; col++)
         {
             for (let row = 2; row < this.rows; row++) 
@@ -103,12 +113,17 @@ export class TriadGameGrid {
                     cell1.minimize = true;
                     cell2.minimize = true;
                     cell3.minimize = true;
+                    cellsToMinimize = true;
                 }
             }
         }
+
+        return cellsToMinimize
     }
 
-    findMatchingCellsAcross() {
+    findMatchingCellsAcross() : boolean {
+
+        let cellsToMinimize = false;
         for (let row = 0; row < this.rows; row++) {
             for (let col = 2; col < this.columns; col++) {
                 let cell1 = this.getCell(row, col);
@@ -120,9 +135,12 @@ export class TriadGameGrid {
                     cell1.minimize = true;
                     cell2.minimize = true;
                     cell3.minimize = true;
+                    cellsToMinimize = true;
                 }
             }
         }
+
+        return cellsToMinimize;
     }
 
     setupGameGrid(rows: number, columns: number) {

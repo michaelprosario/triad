@@ -11,6 +11,7 @@ export class GridNode extends GameNode
 
     triadGrid: TriadGameGrid;
     sprites: Array<Phaser.GameObjects.Sprite>;
+    showBlocksToMinimize: boolean = false;
 
     constructor(
         private scene: Phaser.Scene,
@@ -39,12 +40,20 @@ export class GridNode extends GameNode
         {
             for(let row=0; row<this.triadGrid.rows; row++)
             {
-                let blockNumber = this.triadGrid.getCellValue(row,col);
+                let block = this.triadGrid.getCell(row,col);
+                let blockNumber = block.cellValue;
                 if(blockNumber > 0)
                 {
+                    
                     let blockName = "box" + blockNumber;
+                    if(block.minimize)
+                    {
+                        blockName = "block-minimize";    
+                    }
+
                     let sprite = this.scene.add.sprite(col* TriadConstants.BLOCK_WIDTH,row*TriadConstants.BLOCK_WIDTH, blockName);
-                    this.sprites.push(sprite);  
+                    this.sprites.push(sprite);      
+
                 }
             }
         }
@@ -57,14 +66,37 @@ export class GridNode extends GameNode
 
     receiveMessage(message: GameMessage) 
     {
-        if(message.messageType = MessageTypes.RefreshGrid){
-            for(let sprite of this.sprites)
-            {
-                sprite.destroy();
-            }
+        if(message.messageType = MessageTypes.FindThreeInRow)
+        {
+            this.handleFindThreeInRow();            
+        }        
+    }
 
-            this.sprites = [];
-            this.refreshGrid();
+    private redrawGrid() {
+        for (let sprite of this.sprites) {
+            sprite.destroy();
+        }
+
+        this.sprites = [];
+        this.refreshGrid();
+    }
+
+    private handleFindThreeInRow() {
+        let cellsToMinimize = this.triadGrid.findCellsToMinimize();
+        if (cellsToMinimize) {
+            this.showBlocksToMinimize = true;
+            this.redrawGrid();            
+            setTimeout(() => this.minimizeGridAndRefresh(), 250);
+        }else{
+            this.redrawGrid();            
         }
     }
+
+    minimizeGridAndRefresh()
+    {
+        this.triadGrid.minimizeGrid();
+        this.redrawGrid();
+        this.showBlocksToMinimize = false;
+    }
+
 }

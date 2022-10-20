@@ -114,7 +114,7 @@ export class TriadNode extends GameNode
 
         let message = new GameMessage();
         message.content = "";
-        message.messageType = MessageTypes.RefreshGrid;
+        message.messageType = MessageTypes.FindThreeInRow;
         message.source = "TriadNode";
         message.topic = MessageTopics.GridState;
         this.messageService.publish(message);

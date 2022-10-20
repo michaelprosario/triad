@@ -130,13 +130,14 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     gameGrid.setCellValue(currentRow+2, currentCol, 2);
 
     // act
-    gameGrid.findCellsToMinimize();
+    let response = gameGrid.findCellsToMinimize();
 
     // assert
     _chai.assert(gameGrid.getCell(currentRow, currentCol).minimize === true, "we should minimize here");
     _chai.assert(gameGrid.getCell(currentRow+1, currentCol).minimize === true, "we should minimize here");
     _chai.assert(gameGrid.getCell(currentRow+2, currentCol).minimize === true, "we should minimize here");
-  }
+    _chai.assert(response);
+  }  
 
   @test 'Reducing a grid'() 
   {
@@ -159,9 +160,7 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
 
     // act
     gameGrid.findCellsToMinimize();
-    let newGrid = gameGrid.makeReducedGrid();
-
-    console.log(newGrid);
+    let newGrid = gameGrid.makeReducedGrid();    
     
     // assert    
     _chai.assert(newGrid[32][1].cellValue === 3);

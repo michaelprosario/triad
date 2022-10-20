@@ -22,6 +22,7 @@ export default class Demo extends Phaser.Scene {
     this.load.image('box3', '../assets/images/block3.png');
     this.load.image('box4', '../assets/images/block4.png');
     this.load.image('box5', '../assets/images/block5.png');    
+    this.load.image('block-minimize', '../assets/images/block-minimize.png'); 
   }
 
   create() {
