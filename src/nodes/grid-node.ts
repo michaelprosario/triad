@@ -31,7 +31,7 @@ export class GridNode extends GameNode
     }
 
     placeRandomBlocks(){
-        this.triadGrid.placeRandomBlocks(10);
+        this.triadGrid.placeRandomBlocks(50);
     }
         
     refreshGrid() 
@@ -97,6 +97,7 @@ export class GridNode extends GameNode
         this.triadGrid.minimizeGrid();
         this.redrawGrid();
         this.showBlocksToMinimize = false;
+        this.handleFindThreeInRow();
     }
 
 }
