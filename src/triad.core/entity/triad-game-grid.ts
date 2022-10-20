@@ -21,27 +21,85 @@ export class TriadGameGrid {
 
     }
 
+    makeReducedGrid() {
+        
+        let newGrid: Array<Array<TriadGridCell>> = [];
+        this.clearGrid(newGrid);      
+
+        for (let column: number = 0; column < this.columns; column++) 
+        {
+            let gridValues: Array<number> = this.getMinimizedColumn(column);            
+            newGrid = this.storeUpdatedColumnToNewGrid(gridValues, newGrid, column);
+        }
+
+        return newGrid;
+    }
+
+    minimizeGrid() 
+    {
+        let newGrid = this.makeReducedGrid();
+        this.grid = newGrid;
+    }
+
+    private storeUpdatedColumnToNewGrid(gridValues: number[], newGrid: TriadGridCell[][], column: number) {
+        let rowIndex = this.rows - 1;
+        for (let cellValue of gridValues) {            
+            newGrid[rowIndex][column].cellValue = cellValue;
+            newGrid[rowIndex][column].minimize = false;
+            rowIndex--;
+        }
+
+        return newGrid;
+    }
+
+    private clearGrid(newGrid: TriadGridCell[][]) {
+        for (let row: number = 0; row < this.rows; row++) {
+            let colArray: Array<TriadGridCell> = [];
+            for (let column: number = 0; column < this.columns; column++) {
+                colArray[column] = new TriadGridCell();
+            }
+
+            newGrid[row] = colArray;
+        }
+    }
+
+    private getMinimizedColumn(column: number) {
+        let gridValues: Array<number> = [];
+        
+        for (let currentRow = this.rows - 1; currentRow > 0; currentRow--) {
+            // capture non zero cells that are not minimized
+            let currentCell = this.grid[currentRow][column];            
+            if (currentCell.cellValue > 0 && currentCell.minimize === false) {
+                gridValues.push(currentCell.cellValue);
+            }
+        }
+        return gridValues;
+    }
+
     placeRandomBlocks(blockCount: number)
     {
         this.makeEmptyGrid();
         for(let i=0; i<blockCount; i++)
         {
-            let row = MathHelper.randomIntFromInterval(5, this.rows-1);
-            let col = MathHelper.randomIntFromInterval(3, this.columns-1);
-            if(this.grid[col][row])
+            let row = MathHelper.randomIntFromInterval(0, this.rows-1);
+            let col = MathHelper.randomIntFromInterval(0, this.columns-1);
+            if(this.grid[row][col])
             {
-                this.grid[col][row].cellValue = MathHelper.randomIntFromInterval(1,5);
+                this.grid[row][col].cellValue = MathHelper.randomIntFromInterval(1,5);
             }
         }
     }
 
     findCellsToMinimize() 
     {
-        this.findMatchingCellsAcross();    
-        this.findMatchingCellsUpDown();
+        let cellsToMinimize: boolean = false;
+        cellsToMinimize = this.findMatchingCellsAcross();    
+        cellsToMinimize = cellsToMinimize || this.findMatchingCellsUpDown();
+        return cellsToMinimize;
     }
 
-    private findMatchingCellsUpDown() {
+    findMatchingCellsUpDown() : boolean {
+        let cellsToMinimize = false;
         for (let col = 0; col < this.columns; col++)
         {
             for (let row = 2; row < this.rows; row++) 
@@ -55,12 +113,17 @@ export class TriadGameGrid {
                     cell1.minimize = true;
                     cell2.minimize = true;
                     cell3.minimize = true;
+                    cellsToMinimize = true;
                 }
             }
         }
+
+        return cellsToMinimize
     }
 
-    private findMatchingCellsAcross() {
+    findMatchingCellsAcross() : boolean {
+
+        let cellsToMinimize = false;
         for (let row = 0; row < this.rows; row++) {
             for (let col = 2; col < this.columns; col++) {
                 let cell1 = this.getCell(row, col);
@@ -72,9 +135,12 @@ export class TriadGameGrid {
                     cell1.minimize = true;
                     cell2.minimize = true;
                     cell3.minimize = true;
+                    cellsToMinimize = true;
                 }
             }
         }
+
+        return cellsToMinimize;
     }
 
     setupGameGrid(rows: number, columns: number) {

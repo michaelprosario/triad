@@ -5,7 +5,7 @@ export abstract class GameNode
 {
   abstract receiveMessage(message: GameMessage): any;
   abstract start(): any;
-  abstract update(): any;
+  abstract update(time: number, delta: number): any;
   children: Array<GameNode> = [];
   id: string = "";
   isActive: boolean = true;

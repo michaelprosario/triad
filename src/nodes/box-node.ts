@@ -32,7 +32,7 @@ export class BoxNode extends GameNode
     {
     }
 
-    update() 
+    update(time: number, delta: number) 
     {
         this.boxSprite.x += this.deltaX;
         this.boxSprite.y += this.deltaY;

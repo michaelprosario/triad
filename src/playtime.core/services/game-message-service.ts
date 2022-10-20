@@ -34,7 +34,7 @@ export class GameMessageService
         this.messages.push(message);
     }
 
-    update()
+    update(time: number, delta: number)
     {
         let gameMessage: GameMessage | undefined = undefined;
 

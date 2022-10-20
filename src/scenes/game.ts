@@ -22,23 +22,27 @@ export default class Demo extends Phaser.Scene {
     this.load.image('box3', '../assets/images/block3.png');
     this.load.image('box4', '../assets/images/block4.png');
     this.load.image('box5', '../assets/images/block5.png');    
+    this.load.image('block-minimize', '../assets/images/block-minimize.png'); 
   }
 
   create() {
     this.gameMessageService = new GameMessageService();
     this.inputController = new InputController(this, this.gameMessageService);
-    this.triadNode = new TriadNode(this, this.gameMessageService);    
-    this.triadNode.start();
 
-    this.gridNode = new GridNode(this);
+    this.gridNode = new GridNode(this, this.gameMessageService);
     this.gridNode.start();
     this.gridNode.placeRandomBlocks();
     this.gridNode.refreshGrid();
+
+
+    this.triadNode = new TriadNode(this, this.gameMessageService, this.gridNode.triadGrid);    
+    this.triadNode.start();
+
   }
 
   update(time: number, delta: number): void {
-    this.inputController?.update();
-    this.gameMessageService?.update();
-    this.triadNode?.update();    
+    this.inputController?.update(time,delta);
+    this.gameMessageService?.update(time,delta);
+    this.triadNode?.update(time,delta);    
   }
 }
