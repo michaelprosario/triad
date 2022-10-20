@@ -98,6 +98,29 @@ export class TriadGameGrid {
         return cellsToMinimize;
     }
 
+    findMatchingCellsGoingUpAndRight() : boolean {
+        let cellsToMinimize = false;
+        for (let row = 2; row < this.rows; row++)
+        {
+            for (let col = 0; col < this.columns; col++)     
+            {
+                let cell1 = this.getCell(row - 2, col);
+                let cell2 = this.getCell(row-1, col);
+                let cell3 = this.getCell(row, col);
+                if (cell1.cellValue > 0 &&
+                    cell1.cellValue === cell2.cellValue &&
+                    cell2.cellValue === cell3.cellValue) {
+                    cell1.minimize = true;
+                    cell2.minimize = true;
+                    cell3.minimize = true;
+                    cellsToMinimize = true;
+                }
+            }
+        }
+
+        return cellsToMinimize
+    }
+
     findMatchingCellsUpDown() : boolean {
         let cellsToMinimize = false;
         for (let col = 0; col < this.columns; col++)

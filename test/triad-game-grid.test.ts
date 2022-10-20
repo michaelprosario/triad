@@ -139,6 +139,29 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     _chai.assert(response);
   }  
 
+  @test 'Find cells for minimization - up and right'() 
+  {
+    // arrange
+    let gameGrid = this.makeGameGrid();
+    
+    const currentCol = 0;
+    const currentRow = 5;
+
+    gameGrid.setCellValue(currentRow, currentCol, 2);
+    gameGrid.setCellValue(currentRow-1, currentCol+1, 2);
+    gameGrid.setCellValue(currentRow-2, currentCol+2, 2);
+
+    // act
+    let response = gameGrid.findCellsToMinimize();
+
+    // assert
+    _chai.assert(gameGrid.getCell(currentRow, currentCol).minimize === true, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow-1, currentCol+1).minimize === true, "we should minimize here");
+    _chai.assert(gameGrid.getCell(currentRow-2, currentCol+2).minimize === true, "we should minimize here");
+    _chai.assert(response);
+  }  
+
+
   @test 'Reducing a grid'() 
   {
     // arrange
