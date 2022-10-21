@@ -167,7 +167,6 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     _chai.assert(response);
   }  
 
-  /*
   @test 'Find cells for minimization - up and right'() 
   {
     // arrange
@@ -189,8 +188,6 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     _chai.assert(gameGrid.getCell(currentRow-2, currentCol+2).minimize === true, "we should minimize here");
     _chai.assert(response);
   }  
-  */
-
 
   @test 'Reducing a grid'() 
   {

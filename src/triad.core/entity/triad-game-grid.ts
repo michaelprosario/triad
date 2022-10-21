@@ -96,6 +96,8 @@ export class TriadGameGrid {
         let cellsToMinimize: boolean = false;
         cellsToMinimize = this.findMatchingCellsAcross();    
         cellsToMinimize = cellsToMinimize || this.findMatchingCellsUpDown();
+        cellsToMinimize = cellsToMinimize || this.findMatchingDiagnalCells();
+
         return cellsToMinimize;
     }
 
@@ -203,14 +205,34 @@ export class TriadGameGrid {
         return response;
     }
 
-    findMatchingCellsGoingUpAndRight() : boolean {
+    findMatchingDiagnalCells() : boolean {
         let cellsToMinimize = false;
 
-        // build a list of up/right diagnals - row oriented
+        let diagPoints1 = this.getUpLeftDiagnalPoints();
+        let diagPoints2 = this.getUpRightDiagnalPoints();
+        let diagPoints = diagPoints1.concat(diagPoints2);
 
+        for(let pointSet of diagPoints)
+        {
+            for(let i=0; i<pointSet.length - 2; i++)
+            {
+                let point1 = pointSet[i];
+                let point2 = pointSet[i+1];
+                let point3 = pointSet[i+2];
+                let cell1 = this.getCell(point1.y, point1.x);
+                let cell2 = this.getCell(point2.y, point2.x);
+                let cell3 = this.getCell(point3.y, point3.x);
 
-        // build a list of up/right diagnals - col oriented
-        
+                if(cell1.cellValue === cell2.cellValue && 
+                   cell2.cellValue === cell3.cellValue)
+                {
+                    cell1.minimize = true;
+                    cell2.minimize = true;
+                    cell3.minimize = true;
+                    cellsToMinimize = true;
+                }
+            }
+        }
 
         return cellsToMinimize
     }
