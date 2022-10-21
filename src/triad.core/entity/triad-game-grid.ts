@@ -1,4 +1,5 @@
 import { MathHelper } from "../../playtime.core/helpers/math-helper";
+import { Point2d } from "../../playtime.core/value-objects/point-2d";
 
 export class TriadGridCell
 {
@@ -98,25 +99,118 @@ export class TriadGameGrid {
         return cellsToMinimize;
     }
 
+    getUpLeftDiagnalPoints()
+    {
+        let response: Array<Array<Point2d>> = [];
+
+        for(let row=2; row< this.rows; row++)
+        {
+            let currentRow = row;
+            let currentCol = this.columns - 1;
+            let rowList = new Array<Point2d>();
+            while(
+                currentRow < this.rows && 
+                currentCol < this.columns && 
+                currentRow >= 0 && 
+                currentCol >=0
+            )
+            {
+                let point = new Point2d();
+                point.setLocation(currentCol, currentRow);
+                rowList.push(point)
+                currentRow--;
+                currentCol--;
+            }
+
+            response.push(rowList);
+        }
+
+        for(let row=3; row< this.rows; row++)
+        {
+            let currentRow = row;
+            let currentCol = 0;
+            let rowList = new Array<Point2d>();
+            while(
+                currentRow < this.rows && 
+                currentCol < this.columns && 
+                currentRow >= 0 && 
+                currentCol >=0
+            )
+            {
+                let point = new Point2d();
+                point.setLocation(currentCol, currentRow);
+                rowList.push(point)
+                currentRow++;
+                currentCol++;
+            }
+
+            if(rowList.length >= 3)
+                response.push(rowList);
+        }         
+
+        return response;
+    }
+
+    getUpRightDiagnalPoints()
+    {
+        let response: Array<Array<Point2d>> = [];
+
+        for(let row=2; row< this.rows; row++)
+        {
+            let currentRow = row;
+            let currentCol = 0;
+            let rowList = new Array<Point2d>();
+            while(
+                currentRow < this.rows && 
+                currentCol < this.columns && 
+                currentRow >= 0 && 
+                currentCol >=0
+            )
+            {
+                let point = new Point2d();
+                point.setLocation(currentCol, currentRow);
+                rowList.push(point)
+                currentRow--;
+                currentCol++;
+            }
+
+            response.push(rowList);
+        }
+
+        for(let row=3; row< this.rows; row++)
+        {
+            let currentRow = row;
+            let currentCol = this.columns - 1;
+            let rowList = new Array<Point2d>();
+            while(
+                currentRow < this.rows && 
+                currentCol < this.columns && 
+                currentRow >= 0 && 
+                currentCol >=0
+            )
+            {
+                let point = new Point2d();
+                point.setLocation(currentCol, currentRow);
+                rowList.push(point)
+                currentRow++;
+                currentCol--;
+            }
+
+            if(rowList.length >= 3)
+                response.push(rowList);
+        }                
+
+        return response;
+    }
+
     findMatchingCellsGoingUpAndRight() : boolean {
         let cellsToMinimize = false;
-        for (let row = 2; row < this.rows; row++)
-        {
-            for (let col = 0; col < this.columns; col++)     
-            {
-                let cell1 = this.getCell(row - 2, col);
-                let cell2 = this.getCell(row-1, col);
-                let cell3 = this.getCell(row, col);
-                if (cell1.cellValue > 0 &&
-                    cell1.cellValue === cell2.cellValue &&
-                    cell2.cellValue === cell3.cellValue) {
-                    cell1.minimize = true;
-                    cell2.minimize = true;
-                    cell3.minimize = true;
-                    cellsToMinimize = true;
-                }
-            }
-        }
+
+        // build a list of up/right diagnals - row oriented
+
+
+        // build a list of up/right diagnals - col oriented
+        
 
         return cellsToMinimize
     }

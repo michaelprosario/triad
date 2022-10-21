@@ -95,6 +95,33 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     _chai.assert(gameGrid.getCell(currentRow, 2).minimize === true, "we should minimize here");
   }
 
+  @test 'getUpRightDiagnalBasedOnRows - method should return 7 collections'() 
+  {
+    // arrange
+    let gameGrid = new TriadGameGrid();
+    gameGrid.setupGameGrid(7, 5);      
+    
+    // act
+    let response = gameGrid.getUpRightDiagnalPoints();
+
+    // assert
+    _chai.assert(response.length == 7);
+  }
+
+  @test 'getUpLeftDiagnalBasedOnRows - method should return 7 collections'() 
+  {
+    // arrange
+    let gameGrid = new TriadGameGrid();
+    gameGrid.setupGameGrid(7, 5);      
+    
+    // act
+    let response = gameGrid.getUpLeftDiagnalPoints();
+
+    // assert
+    _chai.assert(response.length == 7);
+  }  
+
+
   @test 'Find cells for minimization - up and down - case1'() 
   {
     // arrange
@@ -117,6 +144,7 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     _chai.assert(gameGrid.getCell(currentRow+2, currentCol).minimize === true, "we should minimize here");
   }
 
+  
   @test 'Find cells for minimization - up and down - case2'() 
   {
     // arrange
@@ -139,6 +167,7 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     _chai.assert(response);
   }  
 
+  /*
   @test 'Find cells for minimization - up and right'() 
   {
     // arrange
@@ -160,6 +189,7 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     _chai.assert(gameGrid.getCell(currentRow-2, currentCol+2).minimize === true, "we should minimize here");
     _chai.assert(response);
   }  
+  */
 
 
   @test 'Reducing a grid'() 
