@@ -86,7 +86,7 @@ export class GridNode extends GameNode
         if (cellsToMinimize) {
             this.showBlocksToMinimize = true;
             this.redrawGrid();            
-            setTimeout(() => this.minimizeGridAndRefresh(), 250);
+            setTimeout(() => this.minimizeGridAndRefresh(), 60);
         }else{
             this.redrawGrid();            
         }

@@ -39,7 +39,7 @@ export class TriadGameGrid {
     minimizeGrid() 
     {
         let newGrid = this.makeReducedGrid();
-        this.grid = newGrid;
+        this.grid = newGrid;      
     }
 
     private storeUpdatedColumnToNewGrid(gridValues: number[], newGrid: TriadGridCell[][], column: number) {
@@ -96,7 +96,7 @@ export class TriadGameGrid {
         let cellsToMinimize: boolean = false;
         cellsToMinimize = this.findMatchingCellsAcross();    
         cellsToMinimize = cellsToMinimize || this.findMatchingCellsUpDown();
-        cellsToMinimize = cellsToMinimize || this.findMatchingDiagnalCells();
+        //cellsToMinimize = cellsToMinimize || this.findMatchingDiagnalCells();
 
         return cellsToMinimize;
     }
@@ -210,7 +210,7 @@ export class TriadGameGrid {
 
         let diagPoints1 = this.getUpLeftDiagnalPoints();
         let diagPoints2 = this.getUpRightDiagnalPoints();
-        let diagPoints = diagPoints1.concat(diagPoints2);
+        let diagPoints = diagPoints2;
 
         for(let pointSet of diagPoints)
         {
@@ -223,8 +223,8 @@ export class TriadGameGrid {
                 let cell2 = this.getCell(point2.y, point2.x);
                 let cell3 = this.getCell(point3.y, point3.x);
 
-                if(cell1.cellValue === cell2.cellValue && 
-                   cell2.cellValue === cell3.cellValue)
+                if(cell1.cellValue == cell2.cellValue && 
+                   cell2.cellValue == cell3.cellValue)
                 {
                     cell1.minimize = true;
                     cell2.minimize = true;
