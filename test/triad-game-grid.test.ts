@@ -182,6 +182,7 @@ import { TriadGameGrid } from "../src/triad.core/entity/triad-game-grid"
     // act
     let response = gameGrid.findCellsToMinimize();
 
+    
     // assert
     _chai.assert(gameGrid.getCell(currentRow, currentCol).minimize === true, "we should minimize here");
     _chai.assert(gameGrid.getCell(currentRow-1, currentCol+1).minimize === true, "we should minimize here");

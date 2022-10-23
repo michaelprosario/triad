@@ -96,7 +96,7 @@ export class TriadGameGrid {
         let cellsToMinimize: boolean = false;
         cellsToMinimize = this.findMatchingCellsAcross();    
         cellsToMinimize = cellsToMinimize || this.findMatchingCellsUpDown();
-        //cellsToMinimize = cellsToMinimize || this.findMatchingDiagnalCells();
+        cellsToMinimize = cellsToMinimize || this.findMatchingDiagnalCells();
 
         return cellsToMinimize;
     }
@@ -210,7 +210,7 @@ export class TriadGameGrid {
 
         let diagPoints1 = this.getUpLeftDiagnalPoints();
         let diagPoints2 = this.getUpRightDiagnalPoints();
-        let diagPoints = diagPoints2;
+        let diagPoints = diagPoints1;
 
         for(let pointSet of diagPoints)
         {
@@ -301,6 +301,10 @@ export class TriadGameGrid {
 
     getCell(row: number, column: number): TriadGridCell
     {
+        if(row < 0 || column < 0 || column > this.columns || row > this.rows){
+            throw new Error(`row, col are not in bounds ${row},${column}`)
+        }
+
         return this.grid[row][column];
     }    
 
